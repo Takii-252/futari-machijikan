@@ -37,6 +37,7 @@ V.home = () => `
     <button class="game" data-act="rSetup"><b>🏇 順位当て</b><span>相手の「好きな順」を予想。三連単・馬単など競馬の買い方で役がつく</span></button>
   </div>
   <button data-act="recOpen" data-g="all">📒 きろく</button>
+  ${wakePanel()}
   ${installHelp()}`;
 
 V.handoff = () => { const p=S.hand.p, o=1-p; return `

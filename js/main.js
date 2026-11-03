@@ -98,6 +98,8 @@ const A = {
   recOpen(d){ S.recTab=d.g||"all"; go("rec"); },
   recTab(d){ S.recTab=d.g; S.armKey=null; render(); },
   recClear(){ if(S.armKey!=="rec"){ S.armKey="rec"; render(); return; } clearRecords(); S.armKey=null; render(); },
+  // 画面をつけたまま（設定は端末に保存）
+  wakeToggle(){ setSetting("wake", !setting("wake")); wakeSync(); render(); },
   // ホームに戻る（遊んでいる途中は2回タップで確定）
   homeAsk(){ if(SAFE_HOME.includes(S.screen) || S.homeArmed) return go("home");
     S.homeArmed=true; const b=document.getElementById("homeBtn"); if(b){ b.textContent="途中でやめてホームに戻る？（もう一度タップ）"; b.classList.add("armed"); } }
@@ -116,3 +118,4 @@ app.addEventListener("input", e => { const id=e.target.id, v=e.target.value;
 // 保存データを読み込んでから、最初の画面を出す
 saveInit();
 render();
+wakeSync();
