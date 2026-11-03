@@ -29,7 +29,8 @@ V.wPlay = () => { const w=S.w, ws=w.cur.words; return `
   <div class="words">${ws.map(x=>`<span class="word">${wordIcon(x)?`<i class="wi">${wordIcon(x)}</i>`:""}${esc(x)}</span>`).join(`<span class="plus">＋</span>`)}</div>
   <p class="sub">心の中で1つ決めたら、カウントダウンを押してね。</p>
   <button class="main" data-act="wCount">3・2・1</button>`; };
-V.wCount = () => `<div class="count" id="cnt">3</div>`;
+// 数字が拡大する瞬間に横へはみ出さないよう、外側の箱で切り取る（見た目は同じ）
+V.wCount = () => `<div class="countbox"><div class="count" id="cnt">3</div></div>`;
 V.wJudge = () => `
   <div><p class="eyebrow">${S.w.r+1}/${S.w.rounds}問目　${S.w.cur.words.map(esc).join(" ＋ ")}</p><h2>同じ言葉だった？</h2></div>
   <p class="sub">言い方がちがっても、ふたりが「同じ」と思えばそろったことにしてOK。</p>

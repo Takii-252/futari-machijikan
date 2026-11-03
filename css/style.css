@@ -150,6 +150,7 @@ details.rlog summary{cursor:pointer;font-size:14px}
 .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
 .confetti i{position:absolute;top:-16px;width:8px;height:14px;border-radius:2px;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.countbox{overflow:hidden}
 .count{font-family:var(--f-disp);font-size:120px;line-height:1;text-align:center;color:var(--indigo);padding:40px 0}
 @media (prefers-reduced-motion:no-preference){
   .tag.flip{animation:flip .35s ease}

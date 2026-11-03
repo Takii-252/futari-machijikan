@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- ふたりの待ち時間のアイコン：番号札（木の札）が2枚。青＝ひとりめ、赤＝ふたりめ -->
+  <rect width="512" height="512" rx="0" fill="#23395d"/>
+  <g transform="rotate(-12 200 270)">
+    <rect x="112" y="128" width="176" height="248" rx="22" fill="#e9dcc0"/>
+    <path d="M112 150a22 22 0 0 1 22-22h132a22 22 0 0 1 22 22v24H112z" fill="#2d63a8"/>
+    <circle cx="200" cy="151" r="11" fill="#23395d"/>
+    <rect x="148" y="238" width="104" height="18" rx="9" fill="#3b2f1c" opacity=".55"/>
+    <rect x="148" y="282" width="72" height="18" rx="9" fill="#3b2f1c" opacity=".55"/>
+  </g>
+  <g transform="rotate(10 316 262)">
+    <rect x="228" y="140" width="176" height="248" rx="22" fill="#e9dcc0"/>
+    <path d="M228 162a22 22 0 0 1 22-22h132a22 22 0 0 1 22 22v24H228z" fill="#b4365f"/>
+    <circle cx="316" cy="163" r="11" fill="#23395d"/>
+    <rect x="264" y="250" width="104" height="18" rx="9" fill="#3b2f1c" opacity=".55"/>
+    <rect x="264" y="294" width="72" height="18" rx="9" fill="#3b2f1c" opacity=".55"/>
+  </g>
+</svg>
