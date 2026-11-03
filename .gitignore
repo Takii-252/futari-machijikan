@@ -1,0 +1,9 @@
+# OS のゴミファイル
+.DS_Store
+Thumbs.db
+desktop.ini
+# エディタ
+.vscode/
+*.swp
+# Claude Code のローカル設定
+.claude/settings.local.json
