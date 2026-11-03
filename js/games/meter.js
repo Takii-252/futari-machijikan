@@ -76,5 +76,6 @@ V.mResult = () => { const m=S.m, max=m.rounds*3, r=m.score/max;
       <div class="mtrack"><i class="t" style="left:${x.target}%"></i><i class="g ${pc(x.taker)}" style="left:${x.guess}%"></i></div>
       <p class="sub">${x.honne?"本音":"正解"} ${x.target} ／ ${nm(x.taker)}さんの予想 ${x.guess}（差${x.d}）</p></div>`).join("")}
   </div>
+  ${recLine("meter")}
   <div class="row"><button class="main grow" data-act="mStart">もう一回</button><button class="grow" data-act="mSetup">設定を変える</button></div>`; };
 

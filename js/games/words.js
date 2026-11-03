@@ -103,6 +103,7 @@ V.wResult = () => { const w=S.w, guess=w.mode==="guess", max=guess?w.rounds*5:w.
       <p class="sub">出題：${nm(x.giver)}さん → 当てる人：${nm(x.taker)}さん・ヒント${x.h}個・質問${x.q}回</p>
       ${x.hints.length?chips(x.hints):""}</div>`).join("")}
   </div>
+  ${recLine("words", w.mode)}
   <div class="row"><button class="main grow" data-act="wStart">もう一回</button><button class="grow" data-act="wSetup">設定を変える</button></div>`; }
   return `
   ${hero(em, title, `せーので連想（${modeName}）・${w.rounds}問`, r>=.5)}
@@ -111,5 +112,6 @@ V.wResult = () => { const w=S.w, guess=w.mode==="guess", max=guess?w.rounds*5:w.
     ${w.log.map((x,k)=>`<div class="logrow"><div class="logh"><b>${k+1}.</b> ${x.words.map(v=>`${wordIcon(v)}${esc(v)}`).join(" ＋ ")}<span class="pt ${x.hit?"ok":"ng"}">${x.hit?"◎ そろった":"× ちがった"}</span></div>
       <p class="sub">答えの例：${x.ans.map(esc).join("、")}</p></div>`).join("")}
   </div>
+  ${recLine("words", w.mode)}
   <div class="row"><button class="main grow" data-act="wStart">もう一回</button><button class="grow" data-act="wSetup">設定を変える</button></div>`; };
 

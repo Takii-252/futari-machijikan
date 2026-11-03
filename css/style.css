@@ -160,3 +160,19 @@ details.rlog summary{cursor:pointer;font-size:14px}
 }
 @keyframes flip{from{transform:rotateY(90deg)}to{transform:rotateY(0)}}
 @keyframes pop{from{transform:scale(1.4);opacity:.3}to{transform:scale(1);opacity:1}}
+/* v12：スロット・記録 */
+.notice{align-self:center;font-size:13px;padding:4px 14px;border-radius:999px;background:var(--tag);color:var(--tag-ink)}
+.slotbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px}
+.slotbar span{min-width:0;overflow-wrap:anywhere}
+button.armed{color:var(--ng);border-color:var(--ng)}
+.slotcard.cur{border-color:var(--indigo);border-width:2px}
+.recline{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 16px}
+.recline p{font-size:14px;font-weight:700}
+.recrow{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;padding:8px 0;border-top:1px dashed var(--line);font-size:14px}
+.panel .recrow:nth-child(2){border-top:0}
+details.recrow{display:block}
+details.recrow summary .rt,details.recrow summary .rg{margin-right:10px}
+.recrow .rt{color:var(--sub);font-variant-numeric:tabular-nums;white-space:nowrap}
+.recrow .rg{font-weight:700;white-space:nowrap}
+.recrow .rs{min-width:0;overflow-wrap:anywhere}
+.recround{padding:8px 0 0;display:flex;flex-direction:column;gap:4px}

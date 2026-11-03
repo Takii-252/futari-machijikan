@@ -71,6 +71,7 @@ V.itoReveal = () => { const it=S.ito, n=it.order.length; let mx=0, ok=true;
   ${(()=>{ const L=S.itoLog||[], okL=L.filter(x=>x.ok), best=okL.length?Math.max(...okL.map(x=>x.n)):0; let st=0; for(let i=L.length-1;i>=0&&L[i].ok;i--) st++;
     return statGrid([["成功／挑戦",`${okL.length}<small>/${L.length}</small>`],["最高枚数",best?best+"枚":"—"],["連続成功",st+"回"]]); })()}
   <div class="panel"><p class="eyebrow">今回のものさし</p><p>${LENS_ICON[it.lens.name]||""} ${esc(it.lens.name)}</p><p>どの例えが意外だった？ 話してみよう。</p></div>
+  ${recLine("ito")}
   ${ok && it.per<4?`<button class="main" data-act="itoAgain" data-n="${it.per+1}">${it.per+1}枚に増やしてもう一回</button>`:""}
   <button ${ok && it.per<4?"":"class=\"main\""} data-act="itoAgain" data-n="${it.per}">${it.per}枚でもう一回</button>`}`; };
 

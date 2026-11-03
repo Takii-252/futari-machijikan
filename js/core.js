@@ -11,20 +11,23 @@ const pickOther = (a, not) => { const b=a.filter(x=>x!==not); return pick(b.leng
 const shuffle = a => { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
 const nearest = (ex, v, n=3) => [...ex].sort((x,y)=>Math.abs(x[0]-v)-Math.abs(y[0]-v)).slice(0,n).sort((x,y)=>x[0]-y[0]);
 const chips = words => `<div class="wchips">${words.map(w=>`<span>${esc(w)}</span>`).join("")}</div>`;
-const SAFE_HOME = ["itoSetup","mSetup","wSetup","mResult","wResult","sSetup","sFinal","rSetup","rFinal"];
-function go(screen){ TIMERS.forEach(clearTimeout); TIMERS=[]; S.homeArmed=false; S.screen = screen; render(); window.scrollTo(0,0); }
+const SAFE_HOME = ["itoSetup","mSetup","wSetup","mResult","wResult","sSetup","sFinal","rSetup","rFinal","slots","rec"];
+// armKey＝「2回タップで確定」のボタンの1回目が押された状態（画面を切り替えたら戻す）。updated＝更新のお知らせ（ホームを離れたら消す）
+function go(screen){ TIMERS.forEach(clearTimeout); TIMERS=[]; S.homeArmed=false; S.armKey=null; if(screen!=="home") S.updated=false; S.screen = screen; render(); window.scrollTo(0,0); }
 // スマホを渡す画面（渡す＋のぞき見防止を1画面で）
 function handoff(p, next){ S.hand = {p, next}; go("handoff"); }
 
 const V = {};
 V.home = () => `
+  ${S.updated?`<p class="notice">新しい版にしました</p>`:""}
   <div><p class="eyebrow">スマホ1台・ふたり用</p><h1>ふたりの待ち時間</h1></div>
+  <div class="slotbar"><span>スロット${SV.data.cur+1}：<b class="pa" id="sbA">${nm(0)}</b> ＆ <b class="pb" id="sbB">${nm(1)}</b></span><button class="chip" data-act="slots">切り替え</button></div>
   <div class="panel">
     <div class="row">
       <label class="grow">ひとりめ<input type="text" id="nameA" maxlength="8" value="${esc(S.names[0])}"></label>
       <label class="grow">ふたりめ<input type="text" id="nameB" maxlength="8" value="${esc(S.names[1])}"></label>
     </div>
-    <p class="sub">名前はこの画面の中だけで使い、どこにも保存しません。</p>
+    <p class="sub">${SV.ok ? "名前は、この端末の中（今のスロット）にだけ保存します。" : "この環境では保存できないため、名前と記録はページを閉じると消えます。"}</p>
   </div>
   <div class="stack">
     <button class="game" data-act="itoSetup"><b>🃏 例えで並べる</b><span>秘密の数字を「例え」で伝え合って、ふたりで小さい順に並べる協力ゲーム</span></button>
@@ -32,7 +35,8 @@ V.home = () => `
     <button class="game" data-act="wSetup"><b>💬 せーので連想</b><span>言葉をつなぐ言葉を、せーので同時に言う。当てっこモードもあり</span></button>
     <button class="game" data-act="sSetup"><b>🔍 似てる・違う</b><span>12枚の絵カードの正解を、出題者の「似てる／違う」カードだけで絞り込む協力ゲーム</span></button>
     <button class="game" data-act="rSetup"><b>🏇 順位当て</b><span>相手の「好きな順」を予想。三連単・馬単など競馬の買い方で役がつく</span></button>
-  </div>`;
+  </div>
+  <button data-act="recOpen" data-g="all">📒 きろく</button>`;
 
 V.handoff = () => { const p=S.hand.p, o=1-p; return `
   <div class="panel handoff">

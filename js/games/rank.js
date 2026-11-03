@@ -95,4 +95,5 @@ V.rFinal = () => { const r=S.r, w = r.pts[0]===r.pts[1] ? -1 : (r.pts[0]>r.pts[1
         <div class="grow"><p class="eyebrow ${pc(x.pred)}">${nm(x.pred)}さんの予想</p>${orderList(x.items,x.p)}</div>
       </div></details>`).join("")}
   </div>
+  ${recLine("rank")}
   <div class="row"><button class="main grow" data-act="rStart">もう一回</button><button class="grow" data-act="rSetup">設定を変える</button></div>`; };

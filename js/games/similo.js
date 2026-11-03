@@ -63,5 +63,6 @@ V.sFinal = () => { const s=S.s, r=s.wins/s.games;
   <div class="panel"><p class="eyebrow">ゲームごとの記録</p>
     ${s.log.map((x,k)=>`<details class="rlog" ${k===s.log.length-1?"open":""}><summary>${k+1}. ${x.ok?"◎":"×"} テーマ「${esc(x.theme)}」　正解 ${x.secretCard[0]}${esc(x.secretCard[1])}　<span class="${pc(x.giver)}">出題 ${nm(x.giver)}</span></summary>${sTimeline(x)}</details>`).join("")}
   </div>
+  ${recLine("similo")}
   <div class="row"><button class="main grow" data-act="sStart">もう一回</button><button class="grow" data-act="sSetup">設定を変える</button></div>`; };
 

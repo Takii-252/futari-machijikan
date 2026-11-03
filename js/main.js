@@ -17,7 +17,7 @@ const A = {
   itoReveal(){ S.ito.revealed=0; go("itoReveal"); },
   itoFlip(){ const it=S.ito; it.revealed++;
     if(it.revealed>=it.order.length){ const nums=it.order.map(id=>it.cards[id].num), ok=nums.every((v,i)=>!i||v>nums[i-1]);
-      (S.itoLog=S.itoLog||[]).push({ok, n:nums.length}); render(); if(ok) confetti(); return; }
+      (S.itoLog=S.itoLog||[]).push({ok, n:nums.length}); recIto(ok, it.per, nums.length); render(); if(ok) confetti(); return; }
     render(); },
   itoAgain(d){ if(d && d.n) S.ito.per=+d.n; deal(); handoff(0, ()=>{ S.memoP=0; go("itoMemo"); }); },
   // ②
@@ -38,7 +38,7 @@ const A = {
     // 針が予想位置から正解へ動く演出
     requestAnimationFrame(()=>requestAnimationFrame(()=>{ const rv=document.getElementById("rv"); if(!rv) return;
       rv.querySelector(".mk.target").style.left=m.target+"%"; rv.classList.add("shown"); })); },
-  mNext(){ const m=S.m; m.r++; if(m.r>=m.rounds){ go("mResult"); if(m.score/(m.rounds*3)>=.5) confetti(); return; } mBeginRound(); },
+  mNext(){ const m=S.m; m.r++; if(m.r>=m.rounds){ recMeter(m); go("mResult"); if(m.score/(m.rounds*3)>=.5) confetti(); return; } mBeginRound(); },
   // ③
   wSetup(){ S.wRounds=S.wRounds||5; S.wMode=S.wMode||"w3"; go("wSetup"); },
   wMode(d){ S.wMode=d.k; render(); },
@@ -52,7 +52,7 @@ const A = {
   wHit(){ const w=S.w; w.last=1; w.score++; w.log.push({words:w.cur.words, ans:w.cur.ans, hit:true}); go("wAfter"); confetti(); },
   wMiss(){ const w=S.w; w.last=0; w.log.push({words:w.cur.words, ans:w.cur.ans, hit:false}); go("wAfter"); },
   wShowAns(){ S.w.showAns=true; render(); },
-  wNext(){ const w=S.w; w.r++; if(w.r>=w.rounds){ go("wResult"); if(w.score/(w.mode==="guess"?w.rounds*5:w.rounds)>=.5) confetti(); return; } wBeginRound(); },
+  wNext(){ const w=S.w; w.r++; if(w.r>=w.rounds){ recWords(w); go("wResult"); if(w.score/(w.mode==="guess"?w.rounds*5:w.rounds)>=.5) confetti(); return; } wBeginRound(); },
   gUseCard(){ S.w.own=""; go("wBoard"); },
   gUseOwn(){ if(S.w.own) go("wBoard"); },
   gOther(){ const w=S.w; w.t=pickOther(TARGETS, w.t); render(); },
@@ -72,7 +72,7 @@ const A = {
   sSel(d){ const s=S.s, i=+d.i, k=s.sel.indexOf(i); if(k>=0) s.sel.splice(k,1); else if(s.sel.length<S_REMOVE[s.round]) s.sel.push(i); render(); },
   sRemove(){ const s=S.s; if(s.sel.length!==S_REMOVE[s.round]) return; s.removed.push(...s.sel);
     s.clues[s.round].removed = s.sel.map(i=>s.grid[i]);
-    const endGame = ok => { s.log.push({theme:s.theme, secretCard:s.grid[s.secret], giver:sGiver(), taker:sTaker(), clues:s.clues.map(k=>({...k})), ok}); s.sel=[]; go("sResult"); if(ok) confetti(); };
+    const endGame = ok => { s.log.push({theme:s.theme, secretCard:s.grid[s.secret], giver:sGiver(), taker:sTaker(), clues:s.clues.map(k=>({...k})), ok}); recSimilo(s.log[s.log.length-1]); s.sel=[]; go("sResult"); if(ok) confetti(); };
     if(s.sel.includes(s.secret)){ s.failed=true; return endGame(false); }
     s.sel=[]; s.round++; if(s.round>=S_REMOVE.length){ s.wins++; return endGame(true); }
     handoff(sGiver(), ()=>go("sClue")); },
@@ -90,7 +90,14 @@ const A = {
     if(r.pred.length<5) return; const j=rJudge(r.ans, r.pred); r.last=j; r.pts[rPred()]+=j.pts;
     r.log.push({topic:r.topic, label:r.label, items:[...r.items], a:[...r.ans], p:[...r.pred], ans:rAns(), pred:rPred(), j, pts:j.pts});
     go("rReveal"); if(j.perfect) confetti(); },
-  rNext(){ const r=S.r; r.i++; if(r.i>=r.rounds){ go("rFinal"); confetti(); return; } rNewRound(); go("rTopic"); },
+  rNext(){ const r=S.r; r.i++; if(r.i>=r.rounds){ recRank(r); go("rFinal"); confetti(); return; } rNewRound(); go("rTopic"); },
+  // スロットと記録（消すときは2回タップで確定）
+  slots(){ go("slots"); },
+  slotUse(d){ useSlot(+d.i); go("home"); },
+  slotDel(d){ const k="slot"+d.i; if(S.armKey!==k){ S.armKey=k; render(); return; } deleteSlot(+d.i); S.armKey=null; render(); },
+  recOpen(d){ S.recTab=d.g||"all"; go("rec"); },
+  recTab(d){ S.recTab=d.g; S.armKey=null; render(); },
+  recClear(){ if(S.armKey!=="rec"){ S.armKey="rec"; render(); return; } clearRecords(); S.armKey=null; render(); },
   // ホームに戻る（遊んでいる途中は2回タップで確定）
   homeAsk(){ if(SAFE_HOME.includes(S.screen) || S.homeArmed) return go("home");
     S.homeArmed=true; const b=document.getElementById("homeBtn"); if(b){ b.textContent="途中でやめてホームに戻る？（もう一度タップ）"; b.classList.add("armed"); } }
@@ -98,13 +105,14 @@ const A = {
 
 app.addEventListener("click", e => { const t=e.target.closest("[data-act]"); if(!t||t.disabled) return; const f=A[t.dataset.act]; if(f) f(t.dataset); });
 app.addEventListener("input", e => { const id=e.target.id, v=e.target.value;
-  if(id==="nameA") S.names[0]=v.trim()||DEFAULT_NAMES[0];
-  if(id==="nameB") S.names[1]=v.trim()||DEFAULT_NAMES[1];
+  if(id==="nameA"||id==="nameB"){ const p=id==="nameA"?0:1; S.names[p]=v.trim()||DEFAULT_NAMES[p]; saveNames();
+    const sb=document.getElementById(p?"sbB":"sbA"); if(sb) sb.textContent=S.names[p]; }
   if(id==="ownAns"){ S.w.own=v.trim(); const b=document.getElementById("ownBtn"); if(b) b.disabled=!S.w.own; }
   if(id==="hint1"||id==="hint2"){ S.m.hints[id==="hint1"?0:1]=v.trim(); const b=document.getElementById("passBtn"); if(b) b.disabled=!(S.m.hints[0]||S.m.hints[1]); }
   if(id==="guess"||id==="honne"){ const n=+v; if(id==="guess") S.m.guess=n; else S.m.target=n;
     const mk=app.querySelector(".mk.guess"); if(mk){ mk.style.left=n+"%"; mk.querySelector("span").textContent=(id==="guess"?"予想 ":"本音 ")+n; } }
 });
 
-// 最初の画面を出す
+// 保存データを読み込んでから、最初の画面を出す
+saveInit();
 render();
