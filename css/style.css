@@ -176,3 +176,7 @@ details.recrow summary .rt,details.recrow summary .rg{margin-right:10px}
 .recrow .rg{font-weight:700;white-space:nowrap}
 .recrow .rs{min-width:0;overflow-wrap:anywhere}
 .recround{padding:8px 0 0;display:flex;flex-direction:column;gap:4px}
+/* v12：ホーム画面に追加する方法 */
+details.howto summary{cursor:pointer;font-weight:700;color:var(--indigo)}
+details.howto p{font-size:14px}
+details.howto[open] summary{margin-bottom:4px}
