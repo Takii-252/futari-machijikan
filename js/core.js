@@ -13,7 +13,8 @@ const nearest = (ex, v, n=3) => [...ex].sort((x,y)=>Math.abs(x[0]-v)-Math.abs(y[
 const chips = words => `<div class="wchips">${words.map(w=>`<span>${esc(w)}</span>`).join("")}</div>`;
 const SAFE_HOME = ["itoSetup","mSetup","wSetup","mResult","wResult","sSetup","sFinal","rSetup","rFinal","slots","rec"];
 // armKey＝「2回タップで確定」のボタンの1回目が押された状態（画面を切り替えたら戻す）。updated＝更新のお知らせ（ホームを離れたら消す）
-function go(screen){ TIMERS.forEach(clearTimeout); TIMERS=[]; S.homeArmed=false; S.armKey=null; if(screen!=="home") S.updated=false; S.screen = screen; render(); window.scrollTo(0,0); }
+// 紙吹雪は画面を切り替えたらすぐ消す（新しい画面で出すときは、操作側が go のあとに confetti() を呼ぶ）
+function go(screen){ TIMERS.forEach(clearTimeout); TIMERS=[]; document.querySelectorAll(".confetti").forEach(b=>b.remove()); S.homeArmed=false; S.armKey=null; if(screen!=="home") S.updated=false; S.screen = screen; render(); window.scrollTo(0,0); }
 // スマホを渡す画面（渡す＋のぞき見防止を1画面で）
 function handoff(p, next){ S.hand = {p, next}; go("handoff"); }
 
