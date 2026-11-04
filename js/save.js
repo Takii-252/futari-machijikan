@@ -1,7 +1,7 @@
 // ===== 保存の部品（スロット3つ・設定） =====
 // 保存先はその端末のブラウザの中（localStorage）だけ。ネットには送らない。
 // localStorage が使えない環境では保存だけを止める（遊ぶことはできる。記録はページを閉じるまで残る）。
-const APP_VER = "12.0";          // アプリの版。sw.js の CACHE と同じ番号にそろえる（更新のお知らせに使う）
+const APP_VER = "12.1";         // アプリの版。sw.js の CACHE と同じ番号にそろえる（更新のお知らせに使う）
 const SAVE_KEY = "futari-machijikan";
 const SAVE_VER = 1;              // 保存データの形の版番号。形を変えたら上げて、saveNormalize で読み替える
 const SLOT_N = 3, LOG_MAX = 100; // スロットの数、1回ごとの記録を残す件数（古いものから消す）

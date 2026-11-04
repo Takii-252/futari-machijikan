@@ -1,7 +1,7 @@
 // ===== サービスワーカー：一度開いたら、電波がなくても遊べるようにする =====
 // ファイルを変えて公開するときは、CACHE の番号を上げる（js/save.js の APP_VER と同じ番号にそろえる）。
 // 番号が変わると、次にネットにつながって開いたときに新しいファイルを取りに行き、その次に開いたときから新しい版になる。
-const CACHE = "futari-12.0";
+const CACHE = "futari-12.1";
 const FILES = [
   "./", "index.html", "manifest.webmanifest", "css/style.css",
   "icons/icon.svg", "icons/favicon-32.png", "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png",
