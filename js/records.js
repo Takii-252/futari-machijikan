@@ -110,6 +110,7 @@ function recTotals(g){ const st=curStats(g);
 V.rec = () => { const d=SV.data, s=curSlot(), tab=S.recTab||"all", log=s?s.log:[], armed=S.armKey==="rec";
   const list = (tab==="all" ? log : log.filter(x=>x.g===tab)).slice().reverse();
   return `
+  ${S.recBack?`<button data-act="recBack">← リザルトに戻る</button>`:""}
   <div><p class="eyebrow">📒 きろく・スロット${d.cur+1}</p><h2><span class="pa">${nm(0)}</span> ＆ <span class="pb">${nm(1)}</span></h2></div>
   ${SV.ok?"":`<p class="sub">この環境では保存できないため、記録はページを閉じると消えます。</p>`}
   <div class="row">${[["all","全部"],...REC_GAMES.map(x=>[x[0],x[2]])].map(([k,l])=>`<button class="chip ${tab===k?"on":""}" data-act="recTab" data-g="${k}">${l}</button>`).join("")}</div>

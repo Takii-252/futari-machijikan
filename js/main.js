@@ -95,7 +95,10 @@ const A = {
   slots(){ go("slots"); },
   slotUse(d){ useSlot(+d.i); go("home"); },
   slotDel(d){ const k="slot"+d.i; if(S.armKey!==k){ S.armKey=k; render(); return; } deleteSlot(+d.i); S.armKey=null; render(); },
-  recOpen(d){ S.recTab=d.g||"all"; go("rec"); },
+  // リザルトから開いたときは、戻る先の画面とスクロール位置を覚えておく（ホームから開いたときは戻るボタンを出さない）
+  recOpen(d){ S.recTab=d.g||"all"; S.recBack=S.screen==="home"?null:S.screen; S.recBackY=window.scrollY; go("rec"); },
+  // 描き直すだけなので、記録も点数も増えず、紙吹雪も出ない
+  recBack(){ go(S.recBack); window.scrollTo(0,S.recBackY); },
   recTab(d){ S.recTab=d.g; S.armKey=null; render(); },
   recClear(){ if(S.armKey!=="rec"){ S.armKey="rec"; render(); return; } clearRecords(); S.armKey=null; render(); },
   // 画面をつけたまま（設定は端末に保存）
